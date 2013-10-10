@@ -34,7 +34,9 @@ Example message:
 
 Currently, virtual 3x3 tiles are supported for offline testing purposes, the test strap is a little bit questionable, but works well enough for now.
 
-To test a show you've created, be sure to pass loopback = False to the serial open call for your firetile, then pipe stdout of your show into visualizer.py.
+When creating a `FireTile` object you can choose to set `loopback=True`. This will 
+print the serial communications to stdout. To test a show you've created, be sure to pass loopback = True when creating your `FireTile` object. Be sure to
+close the object properly, then pipe stdout of your show into visualizer.py.
 
 Example invocation:
 
@@ -42,3 +44,8 @@ Example invocation:
 python test_loopback.py | python pyVirtualTile/visualizer.py 
 ```
 
+The other test programs can also utilize this capability now.:
+
+```
+python test_rand.py loopback | python pyVirtualTile/visualizer/py 
+```

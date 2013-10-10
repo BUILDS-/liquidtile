@@ -11,8 +11,7 @@ import pyFireTile
 from time import sleep
 import sys
 
-t = pyFireTile.FireTile3x3(0)
-t.open(loopback=True)
+t = pyFireTile.FireTile3x3(0, loopback=True)
 t.clear()
 
 try:

@@ -20,16 +20,18 @@ elif len(sys.argv) == 2:
 else:
     print "useage: test0.py <serial-port>"
     sys.exit(0)
+    
+loopback = False
+if port == "loopback":
+    loopback=True
 
-print port
-t = pyFireTile.FireTile3x3(port)
-t.open()
+t = pyFireTile.FireTile3x3(port, loopback=loopback)
 t.clear()
 
 try:
     while 1:
-	t.setPixel(random.randint(0,9), [random.randint(0,255), random.randint(0,255),random.randint(0,128)])
-	t.update()
+        t.setPixel(random.randint(0,8), [random.randint(0,0xff), random.randint(0,0xff),random.randint(0,0xff)])
+        t.update()
         sleep(.1)
 except:
     print "CLOSING!!!"

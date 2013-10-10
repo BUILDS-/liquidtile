@@ -7,25 +7,25 @@ class FireTile(object):
     FireTile UART protocol is an ASCII formatted serial communications protocol. 
     Standard speed is 19200 baud.
     """
-    def __init__(self, port, speed=19200):
+    def __init__(self, port="", speed=19200, loopback=False):
         self.port = port
         self.speed = speed
         self.ser = None
-        
-    def open(self,loopback = False):
-        if not loopback:
-            self.ser = serial.Serial(self.port, self.speed)
-        else:
+        self.loopback = loopback
+
+        if self.loopback:
             self.ser = sys.stdout 
+        else:
+            self.ser = serial.Serial(self.port, self.speed)
+
     def setPixel(self, addr, color):
         send_str = ":{0:0x}{1:02x}{2:02x}{3:02x}\n".format(addr, color[0], color[1],color[2])
-    #   print(send_str)
-    #   print self.ser.isOpen()
         self.ser.write(send_str)
 
     def update(self):
         self.ser.write(":u\n")
         self.ser.flush()
+
     def clear(self, tile_size=9):
         for i in range(tile_size):
             self.setPixel(i, [0,0,0])

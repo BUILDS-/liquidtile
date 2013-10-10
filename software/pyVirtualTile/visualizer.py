@@ -24,6 +24,7 @@ def draw():
         displaySurface.fill(colors[i],rects[i])
         print colors[i]
     pygame.display.flip()              
+
 def hexToColor(hexDigits):
     vals    = [hexDigits[x:x+2] for x in range(1,6,2)]
     color   = []
@@ -40,4 +41,3 @@ while(1):
         target          = int(command[1])
         color           = hexToColor(command[1:])
         colors[target]  = color
-    

@@ -20,14 +20,17 @@ else:
     print "useage: test0.py <serial-port>"
     sys.exit(0)
 
-print port
-t = pyFireTile.FireTile3x3(port)
-t.open()
+loopback = False
+if port == "loopback":
+    loopback=True
+
+t = pyFireTile.FireTile3x3(port, loopback=loopback)
+    
 t.clear()
 
 try:
     while 1:
-        for j in (range(255)[0::16]):
+        for j in (range(255)[0::8]):
             for i in range(9):
                 if i in [0,3,6]:
                     t.setPixel(i, [j, 0,0])
