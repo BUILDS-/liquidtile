@@ -29,3 +29,16 @@ Example message:
 ```
 :0FF00FF\n
 ```
+
+#pyVirtualTile
+
+Currently, virtual 3x3 tiles are supported for offline testing purposes, the test strap is a little bit questionable, but works well enough for now.
+
+To test a show you've created, be sure to pass loopback = False to the serial open call for your firetile, then pipe stdout of your show into visualizer.py.
+
+Example invocation:
+
+```
+python test_loopback.py | python pyVirtualTile/visualizer.py 
+```
+
