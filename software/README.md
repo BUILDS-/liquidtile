@@ -1,8 +1,12 @@
 # pyLiquidTile
-
 LiquidTile is a library for interacting with LiquidTiles made by BUILDS.
 
 Currently there is only one and it is a 3x3 LiquidTile
+
+## Requirements
+pySerial 	(pyserial.sourceforge.net)
+pygame		(pygame.org)
+numpy		(numpy.org)
 
 ## Serial Communications Protocol (v1)
 
