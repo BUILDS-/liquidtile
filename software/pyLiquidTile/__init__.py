@@ -1,10 +1,10 @@
 import serial,sys
 
-class FireTile(object):
+class LiquidTile(object):
     """
-    Generic Fire Tile, supports the basic FireTile UART protocol (v1):
+    Generic Liquid Tile, supports the basic LiquidTile UART protocol (v1):
 
-    FireTile UART protocol is an ASCII formatted serial communications protocol. 
+    LiquidTile UART protocol is an ASCII formatted serial communications protocol. 
     Standard speed is 19200 baud.
     """
     def __init__(self, port="", speed=19200, loopback=False):
@@ -33,7 +33,7 @@ class FireTile(object):
     def close(self):
         self.ser.close()
 
-class FireTile3x3(FireTile):
+class LiquidTile3x3(LiquidTile):
     """
     Supports specific mapping for a 3x3 tile_size
     """

@@ -1,8 +1,8 @@
-# pyFireTile
+# pyLiquidTile
 
-FireTile is a library for interacting with FireTiles made by BUILDS.
+LiquidTile is a library for interacting with LiquidTiles made by BUILDS.
 
-Currently there is only one and it is a 3x3 FireTile
+Currently there is only one and it is a 3x3 LiquidTile
 
 ## Serial Communications Protocol (v1)
 
@@ -34,8 +34,8 @@ Example message:
 
 Currently, virtual 3x3 tiles are supported for offline testing purposes, the test strap is a little bit questionable, but works well enough for now.
 
-When creating a `FireTile` object you can choose to set `loopback=True`. This will 
-print the serial communications to stdout. To test a show you've created, be sure to pass loopback = True when creating your `FireTile` object. Be sure to
+When creating a `LiquidTile` object you can choose to set `loopback=True`. This will 
+print the serial communications to stdout. To test a show you've created, be sure to pass loopback = True when creating your `LiquidTile` object. Be sure to
 close the object properly, then pipe stdout of your show into visualizer.py.
 
 Example invocation:

@@ -7,11 +7,11 @@
 # each column, for use with the loopback adapter.
 ##
 
-import pyFireTile
+import pyLiquidTile
 from time import sleep
 import sys
 
-t = pyFireTile.FireTile3x3(0, loopback=True)
+t = pyLiquidTile.LiquidTile3x3(0, loopback=True)
 t.clear()
 
 try:

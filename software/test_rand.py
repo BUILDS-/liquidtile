@@ -7,7 +7,7 @@
 # each column.
 ##
 
-import pyFireTile
+import pyLiquidTile
 from time import sleep
 import sys
 import random
@@ -25,7 +25,7 @@ loopback = False
 if port == "loopback":
     loopback=True
 
-t = pyFireTile.FireTile3x3(port, loopback=loopback)
+t = pyLiquidTile.LiquidTile3x3(port, loopback=loopback)
 t.clear()
 
 try:
