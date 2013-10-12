@@ -9,6 +9,7 @@ pygame.init()
 
 dwidth  = 256
 dheight = 256
+runGame = True
 
 rects = []
 for y in range(3):
@@ -22,7 +23,7 @@ fpsClock = pygame.time.Clock()
 def draw():
     for i in range(9):
         displaySurface.fill(colors[i],rects[i])
-        print colors[i]
+        print(colors[i])
     pygame.display.flip()              
 
 def hexToColor(hexDigits):
@@ -32,12 +33,18 @@ def hexToColor(hexDigits):
         color.append(int(val,16))
     return pygame.Color(color[0],color[1],color[2])
 
-while(1):
+while(runGame):
     command = sys.stdin.readline()
     if command == ':u\n':
-        print 'update'
+        print('update')
         draw()
     else:
         target          = int(command[1])
         color           = hexToColor(command[1:])
         colors[target]  = color
+	pygame.display.update()
+	#Handle window messages to prevent freezing
+	events = pygame.event.get()
+    for e in events:
+        if (e.type == pygame.QUIT):
+            runGame = False
