@@ -3,27 +3,42 @@ import pygame
 
 colors = []
 
-for x in range(9):
+if len(sys.argv) >= 3:
+    tWidth = int(sys.argv[1])
+    tHeight= int(sys.argv[2])
+elif len(sys.argv) >1:
+    tWidth = tHeight = int(sys.argv[1])
+else:
+    tWidth = tHeight = 3
+
+tileCount = tWidth * tHeight
+
+for x in range(tileCount):
     colors.append(pygame.Color(0,0,0,0))
 pygame.init()
 
 dwidth  = 256
 dheight = 256
+
+cellSize    = min(dwidth / tWidth, dheight/tHeight)
+cellOffset  = cellSize/10
+
+
 runGame = True
 
 rects = []
-for y in range(3):
-    for x in range(3):
-        rects.append(pygame.Rect(y*(dheight/3)+4,x*(dheight/3)+4,dwidth/3-8,dheight/3-8))
+for y in range(tHeight):
+    for x in range(tWidth):
+        rects.append(pygame.Rect( (y*cellSize)+cellOffset/2, (x*cellSize)+cellOffset/2, dwidth/tWidth-cellOffset,dheight/tHeight-cellOffset))
 
 
 displaySurface = pygame.display.set_mode((dwidth,dheight),pygame.DOUBLEBUF)
 fpsClock = pygame.time.Clock()
 
 def draw():
-    for i in range(9):
+    for i in range(tileCount):
         displaySurface.fill(colors[i],rects[i])
-        print(colors[i])
+        #print(colors[i])
     pygame.display.flip()              
 
 def hexToColor(hexDigits):
@@ -39,7 +54,7 @@ while(runGame):
         print('update')
         draw()
     else:
-        target          = int(command[1])
+        target          = int(command[1],16)
         color           = hexToColor(command[1:])
         colors[target]  = color
 	pygame.display.update()
