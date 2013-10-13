@@ -11,7 +11,7 @@ import pyLiquidTile
 from time import sleep
 import sys
 
-t = pyLiquidTile.LiquidTileNxN(0,width=8,height=8, loopback=True)
+t = pyLiquidTile.LiquidTileNxN(0,width=4,height=4, loopback=True)
 t.clear()
 while(True):
     for i in range(0,255,32):
