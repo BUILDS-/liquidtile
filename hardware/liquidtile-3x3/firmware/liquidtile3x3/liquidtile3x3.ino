@@ -160,16 +160,6 @@ void loop()
             rgb[color_counter] = strtol(scratch_pad, &end_ptr, 16);
             if (color_counter == 2) {
               uart_state = IDLE;
-              /*     
-              Serial.print(address);
-              Serial.print('\n');
-              Serial.print(rgb[0]);
-              Serial.print('\n');
-              Serial.print(rgb[1]);
-              Serial.print('\n');
-              Serial.print(rgb[2]);
-              Serial.print('\n');
-              */
               setPixel(address, rgb[0], rgb[1], rgb[2]);
             } else {
                color_counter += 1;
