@@ -34,10 +34,10 @@ The current proposed packet structure is:
 | DATA | The datagram to be sent!                         | LEN bytes      |       |
 | EOP  | End of packet                                    | 1              | 0xF2  |
 
-There are a few ways to synchronize once a packet has started:
+There are two ways to end a packet:
 
-1) Send enough bytes that you are sure you have exceeded LEN and then send an EOP.
-2) Wait for a transmission timeout to occur 
+1. Send LEN bytes in the data section followed by the EOP byte.
+2. Wait for a transmission timeout to occur. This has yet to be specified, but will likely be around 10ms.
 
 ### Data format
 
