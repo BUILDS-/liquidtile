@@ -104,6 +104,7 @@ Sends color data for n pixels.
 Data format:
 
 | Byte Length | Description | 
+|-------------|-------------|
 | 1           | Red Pixel 0   
 | 1           | Green Pixel 0 
 | 1           | Blue Pixel 0  
