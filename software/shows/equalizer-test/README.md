@@ -3,6 +3,10 @@ Experimenting with getting loop back audio and using pyaudio and numpy to analyz
 
 http://alsa.opensrc.org/Record_from_pcm
 
+## music.builds.cc setup
+
+Run the following command ``source setup.sh''
+
 ## OSX Setup (Recording audio output from your sound card)
 
 - Download and install [pyaudio](http://people.csail.mit.edu/hubert/pyaudio/) (and other required libraries). 

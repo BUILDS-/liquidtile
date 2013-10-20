@@ -20,7 +20,7 @@ class LiquidTile(object):
             self.ser = serial.Serial(self.port, self.speed)
 
     def setPixel(self, addr, color):
-        send_str = ":{0:0x}{1:02x}{2:02x}{3:02x}\n".format(addr, color[0], color[1],color[2])
+        send_str = ":{0:0x}{1:02x}{2:02x}{3:02x}\n".format(addr, int(color[0])&0xff, int(color[1])&0xff,int(color[2])&0xff)
         self.ser.write(send_str)
 
     def update(self):
