@@ -95,8 +95,8 @@ if __name__ == "__main__":
 	max_avg = 1
 	maxes_prev = [0 for i in range(8)]
 	fft_filtered = [0 for i in range(CHUNK/2)]
-	r = 0x33
-	g = 0x7f
+	r = 2*0xff/3
+	g = 0xff/3
 	b = 0x0
 	while 1:
 		try:
@@ -117,15 +117,12 @@ if __name__ == "__main__":
 					fft_filtered[i] = .6*fft_normalized[i] + .4*fft_filtered[i]
 					if (fft_filtered[i] > 1):
 						fft_filtered[i] = 1
-				t.setRow(0,(int(0xff*fft_filtered[2]),0,0))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.setRow(1,(int(0x5f*fft_filtered[0]),0,0))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.setRow(2,(int(0xff*fft_filtered[4]),0,0))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.addToColumn(0,(0,int(0xff*fft_filtered[4]),0))
-				t.addToColumn(1,(0,int(0x5f*fft_filtered[0]),0))
-				t.addToColumn(2,(0,int(0xff*fft_filtered[2]),0))
-				t.addToColumn(0,(0,0,int(0xff*fft_filtered[2])))
-				t.addToColumn(1,(0,0,int(0x5f*fft_filtered[0])))
-				t.addToColumn(2,(0,0,int(0xff*fft_filtered[4])))
+				t.setRow(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
+				t.setRow(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
+				t.setRow(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
+				t.addToColumn(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
+				t.addToColumn(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
+				t.addToColumn(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
 
 				#for i in range(3):
 				#	t.addColumn(i,(int(0x7f*fft_filtered[i*CHUNK/2/3]),0,0))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
@@ -133,10 +130,10 @@ if __name__ == "__main__":
 				t.pushFrame()            
 				t.update()
 				count = 0
-			if count2 == 1024:
-				r = (r + 1) & 0xff
-				g = (g + 1) & 0xff
-				b = (b + 1) & 0xff
+			if count2 == 512:
+				r = (r + 2) & 0xff
+				g = (g + 2) & 0xff
+				b = (b + 2) & 0xff
 				count2 = 0
 #				print chr(27) + "[2J"
 #				print max_avg
