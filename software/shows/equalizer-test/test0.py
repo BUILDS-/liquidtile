@@ -81,7 +81,7 @@ if __name__ == "__main__":
 
 	CHUNK = 16
 	FORMAT = pyaudio.paInt16
-	CHANNELS = 2
+	CHANNELS = 1
 	RATE = 48000
 	RECORD_SECONDS = 100
 	WAVE_OUTPUT_FILENAME = "output.wav"
@@ -114,19 +114,15 @@ if __name__ == "__main__":
 			#	t.setCell(1,0,(int(g*fft_filtered[1]),int(b*fft_filtered[1]/max_avg),int(r*fft[1]/max_avg)))
 			#	t.setCell(1,2,(int(r*fft_filtered[2]),int(g*fft_filtered[2]/max_avg),int(b*fft[2]/max_avg)))
 				for i in range(CHUNK/2):
-					fft_filtered[i] = .6*fft_normalized[i] + .4*fft_filtered[i]
+					fft_filtered[i] = .9*fft_normalized[i] + .1*fft_filtered[i]
 					if (fft_filtered[i] > 1):
 						fft_filtered[i] = 1
-				t.setRow(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.setRow(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.setRow(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.addToColumn(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.addToColumn(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-				t.addToColumn(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-
-				#for i in range(3):
-				#	t.addColumn(i,(int(0x7f*fft_filtered[i*CHUNK/2/3]),0,0))#int(g*fft_filtered[0]/max_avg),int(b*fft_filtered[0]/max_avg)))
-
+				t.setRow(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))
+				t.setRow(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))
+				t.setRow(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))
+				t.addToColumn(0,(int(r/2*fft_filtered[2]),int(g/2*fft_filtered[2]),int(b/2*fft_filtered[2])))
+				t.addToColumn(1,(int(r/3*fft_filtered[0]),int(g/3*fft_filtered[0]),int(b/3*fft_filtered[0])))
+				t.addToColumn(2,(int(r*fft_filtered[4]),int(g*fft_filtered[4]),int(b*fft_filtered[4])))
 				t.pushFrame()            
 				t.update()
 				count = 0
@@ -135,18 +131,13 @@ if __name__ == "__main__":
 				g = (g + 2) & 0xff
 				b = (b + 2) & 0xff
 				count2 = 0
-#				print chr(27) + "[2J"
-#				print max_avg
-			#print len(fft)
-#				for i in range(0,len(audio_in.data)/2, 1):
-			#		print ''.join(["|" for i in range(0,1+int(128*(fft[i]/max_avg))&0x7f)])
-#				print ""
 		except KeyboardInterrupt:
 			print("Exiting!")
+			t.close()
 			audio_in.stop()
 			audio_in.close()
 			sys.exit(0)
 		except:
 			count += 1
 #			print "",
-			#print("WARNING: Packet Dropped")
+		#print("WARNING: Packet Dropped")
