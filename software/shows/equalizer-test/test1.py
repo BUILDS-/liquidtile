@@ -77,7 +77,7 @@ class LiquidAudioIn(object):
 
 
 if __name__ == "__main__":
-	t = pyLiquidTile.LiquidTileNxN(0,width=3,height=3, loopback=True)
+	t = pyLiquidTile.LiquidTileNxN('/dev/ttyUSB0',width=3,height=3, loopback=False)
 	t.clear()
 	mappings = [0, 1,2,3,4,5,6,7,8]
 	CHUNK = 4096
@@ -86,7 +86,6 @@ if __name__ == "__main__":
 	RATE = 48000
 
 	DEV_INDEX = 2
-
 
 	audio_in = LiquidAudioIn(format=FORMAT, chunk_size=CHUNK, rate=RATE, dev_index=DEV_INDEX)	
 #	print audio_in.audio.get_device_info_by_index(DEV_INDEX)
@@ -110,14 +109,14 @@ if __name__ == "__main__":
 #			print audio_in.data
 			# Compute the real FFT (assuming real input)... Length will be (CHUNK/2) + 1
 			# Take the absolute value to get the amplitude spectrum
-			amp_spectrum = numpy.abs(numpy.fft.rfft(audio_in.data))**2
+			amp_spectrum = numpy.abs(numpy.fft.rfft(audio_in.data)[16:int(CHUNK/32)])**2
 			# Lets just throw out some of the higher frequency information (anything above 2.756kHz lets say)...
 			# NOTE! We should filter, but it is moslty a waste of time right now [FIXME]
 			# MATH (N = CHUNK)
 			# 	fs = 44.1kHz => N/
 			#	fs/2 = 22.05kHz => N/2
 			#       2.756kHz = fs / h => N * (1/16)
-			amp_spectrum = amp_spectrum[16:int(CHUNK/(32))]
+#			amp_spectrum = amp_spectrum[16:int(CHUNK/(32))]
 
 			# Compute the normalized spectrum, will be between 0 and 1
 #			amp_spectrum_norm = [i/len(audio_in.data) for i in amp_spectrum] 
@@ -125,24 +124,28 @@ if __name__ == "__main__":
 			# Compute an average value of the spectrum at this sample and also
 			# compute the time average. Don't change too fast! We want average to adjust slowly
 			# and not get rid of dynamic content.
-			average_value = sum(amp_spectrum)/len(amp_spectrum)		
-			time_average = .99*time_average + .01*average_value
+#			average_value = sum(amp_spectrum)/len(amp_spectrum)		
+#			time_average = .99*time_average + .01*average_value
 
-			# Set the average value to about 20% brightness
-			amp_spectrum = [.4*A/time_average for A in amp_spectrum]
+#			average_value = max(amp_spectrum)
+#			time_average = .99*time_average + .01*average_value
+#			# Set the average value to about 40% brightness
+#			amp_spectrum = [1*A/time_average for A in amp_spectrum]
 #			print amp_spectrum
 
-			for i in range(len(amp_spectrum)):
-				if amp_spectrum[i] > 1:
-					amp_spectrum[i] = 1
+#			for i in range(len(amp_spectrum)):
+#				if amp_spectrum[i] > 1:
+#					amp_spectrum[i] = 1
 	
 			ranges = numpy.linspace(0, len(amp_spectrum)-1,10)
 			ranges = [int(i) for i in ranges]
 	
 #			print ranges
 			display = [sum(amp_spectrum[ranges[i]:ranges[i+1]])/(ranges[i+1] - ranges[i]) for i in range(len(ranges)-1)]
-
-
+			average_value = max(display)
+			time_average = .98*time_average + .02*average_value
+#			print time_average
+			display = [.7*A/time_average if .7*A <= time_average else 1 for A in display]
 #			for i in display:
 #				print "".join(["|" for j in range(i/2)])
 			for i in range(9):
@@ -158,26 +161,27 @@ if __name__ == "__main__":
 			
 			t.pushFrame()            
 			t.update()
-			if max(display) > .8:
-				sys.stderr.write('shuffle\n')
-				sys.stderr.write(str(mappings))
-				rand.shuffle(mappings)
+			if max(display) > .95:
+				if rand.randint(0,1):
+#				sys.stderr.write('shuffle\n')
+#				sys.stderr.write(str(mappings))
+					rand.shuffle(mappings)
 
 			if color_shift_counter == 1:
 				if (r == 0xff):
-					rdir = -1 * rand.randint(1,16)
+					rdir = -1
 				elif (r == 0):
-					rdir = 1 * rand.randint(1,16)
+					rdir = 1 
 
 				if (g == 0xff):
-					gdir = -1 * rand.randint(1,16)
+					gdir = -1
 				elif g == 0:
-					gdir = 1 * rand.randint(1,16)
+					gdir = 1 
 
 				if (b == 0xff):
-					bdir = -1 * rand.randint(1,16)
+					bdir = -1 
 				elif b == 0:
-					bdir = 1 * rand.randint(1,16)
+					bdir = 1
 				
 				r = (r + rdir) & 0xff
 				g = (g + gdir) & 0xff
@@ -191,4 +195,3 @@ if __name__ == "__main__":
 			sys.exit(0)
 		except IOError:
 			sys.stderr.write("WARNING: Packet Dropped\n")
-

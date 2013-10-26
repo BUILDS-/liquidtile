@@ -1,0 +1,4 @@
+  File "test1.py", line 192
+    sys.stderr.write("WARNING: Packet Dropped\n
+                                              ^
+SyntaxError: EOL while scanning string literal
